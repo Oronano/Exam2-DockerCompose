@@ -1,3 +1,3 @@
-La branch main fonctionne mais ils manquent beaucoups d'éléments
+La branche main permet simplement de lancer les conteneurs avec l'affichage de pgAdmin, du front et du back ; cependant, il n’y a aucune connexion entre les différents conteneurs Docker.
 
-J'ai créé une seconde branche avec les modifications apportées au projet mais celle-ci ne fonctionne pas
+J'ai créé une seconde branche avec des modifications apportées au projet, mais celle-ci ne fonctionne pas.
