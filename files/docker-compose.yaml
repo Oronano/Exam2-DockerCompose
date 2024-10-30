@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:17
+    ports:
+      - "5432:5432"
+    env_file: 
+    - ./postgres.env
+    environment:
+      # POSTGRES_USER: ${POSTGRES_USER}
+      # POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      # POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: userpg
+      POSTGRES_PASSWORD: passwordpg
+      POSTGRES_DB: examtwo
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "5050:80"
+    env_file:
+      - ../docker/pgadmin.env
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+  backend:
+    build:
+      context: ../myapp-back
+      dockerfile: dockerfile.backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../myapp-back:/usr/src/app
+    env_file:
+      - ../myapp-back/backend.env
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: dockerfile.frontend
+    ports:
+      - "3001:3000"
+    env_file:
+      - ../frontend/frontend.env
+
+volumes:
+  postgres_data:
+  pgadmin_data:
