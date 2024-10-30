@@ -1,19 +1,17 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:17
     ports:
       - "5432:5432"
     env_file: 
-      - ../docker/postgres.env
+      - ./docker/postgres.env
     environment:
       POSTGRES_USER: userpg
       POSTGRES_PASSWORD: passwordpg
       POSTGRES_DB: examtwo
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ../myapp-back/create.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./myapp-back/create.sql:/docker-entrypoint-initdb.d/init.sql
 
     networks:
       - backend_network
@@ -23,22 +21,22 @@ services:
     ports:
       - "5050:80"
     env_file:
-      - ../docker/pgadmin.env
+      - ./docker/pgadmin.env
     volumes:
-      - ../docker/pgadmin.json:/pgadmin4/config.json
+      - ./docker/pgadmin.json:/pgadmin4/config.json
     networks:
       - backend_network
 
   backend:
     build:
-      context: ../myapp-back
-      dockerfile: dockerfile.backend
+      context: ./myapp-back
+      dockerfile: ../docker/dockerfile.backend
     ports:
       - "3000:3000"
     volumes:
-      - ../myapp-back:/usr/src/app
+      - ./myapp-back:/usr/src/app
     env_file:
-      - ../myapp-back/backend.env
+      - ./docker/backend.env
     depends_on:
       - postgres
     networks:
@@ -46,12 +44,12 @@ services:
 
   frontend:
     build:
-      context: ../frontend
-      dockerfile: dockerfile.frontend
+      context: ./frontend
+      dockerfile: ../docker/dockerfile.frontend
     ports:
       - "3001:3000"
     env_file:
-      - ../frontend/frontend.env
+      - ./docker/frontend.env
     networks:
       - frontend_network
 
