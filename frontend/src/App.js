@@ -7,12 +7,10 @@ function App() {
     const [password, setPassword] = useState("");
     const [users, setUsers] = useState([]);
 
-    const API_URL = process.env.REACT_APP_API_URL/*  || "http://localhost:3000" */;
-
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${API_URL}/api/users`);
+                const response = await axios.get(`http://localhost:3000/api/users`);
                 setUsers(response.data);
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -20,14 +18,14 @@ function App() {
         };
 
         fetchData();
-    }, [API_URL]);
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const user = { email, password };
 
         try {
-            const response = await axios.post(`${API_URL}/api/users`, user, {
+            const response = await axios.post(`http://localhost:3000/api/users`, user, {
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -46,7 +44,7 @@ function App() {
 
     const handleDelete = async (id) => {
         try {
-            const response = await axios.delete(`${API_URL}/api/users/${id}`);
+            const response = await axios.delete(`http://localhost:3000/api/users/${id}`);
             if (response.status === 200) {
                 setUsers(users.filter((user) => user.id !== id));
             } else {
