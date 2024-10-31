@@ -11,7 +11,7 @@ services:
       POSTGRES_DB: examtwo
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ../files/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./files/init.sql:/docker-entrypoint-initdb.d/init.sql
 
     networks:
       - backend_network
